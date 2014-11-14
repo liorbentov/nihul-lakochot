@@ -1,0 +1,148 @@
+
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">פרטי לקוח מס' <span ng-model="currClient.CardID">{{currClient.CardID}}</span></h4>
+					</div>
+
+						<ul class="nav nav-tabs" role="tablist">
+						  <li class="active"><a href="#client-details" role="tab" data-toggle="tab">פרטים</a></li>
+						  <li><a href="#add-transfer" role="tab" data-toggle="tab">הוסף העברה</a></li>
+						  <li><a href="#transfers" role="tab" data-toggle="tab">העברות</a></li>
+						  <li><a href="#image" role="tab" data-toggle="tab">תמונה</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div id="client-details" class="tab-pane active">
+								<form id="client-form" name="client-form" class="form-horizontal modal-body" role="form" ng-submit="updateClient(currClient)">
+									<div class="form-group">
+										<label for="id" class="col-sm-3">תעודה מזהה</label>
+										<div class="col-sm-4-5">
+											<input type="text" class="form-control" id="id" placeholder="תעודה מזהה" ng-model="currClient.id" required>
+										</div>
+										<div class="col-sm-4-5">
+											<input type="text" class="form-control" id="id2" placeholder="תעודה מזהה" ng-model="currClient.id2">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="firstname" class="col-sm-3">שם</label>
+										<div class="col-sm-4-5">
+											<input type="text" class="form-control" id="firstname" placeholder="שם פרטי" ng-model="currClient.firstname" required>
+										</div>
+										<div class="col-sm-4-5">
+											<input type="text" class="form-control" id="lastname" placeholder="שם משפחה" ng-model="currClient.lastname" required>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="country" class="col-sm-3">ארץ/כתובת</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="country" placeholder="ארץ/כתובת" ng-model="currClient.country">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="gender" class="col-sm-3">מין</label>
+										<div class="col-sm-9">
+											<label class="radio-inline">
+												<input type="radio" ng-model="currClient.gender" value="male">זכר  
+											</label>
+											<label class="radio-inline">
+												<input type="radio" ng-model="currClient.gender" value="female">נקבה
+											</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="phone" class="col-sm-3">טלפונים</label>
+										<div class="col-sm-3">
+											<input type="tel" class="form-control" id="phone" placeholder="טלפון" ng-model="currClient.phone" required>
+										</div>
+										<div class="col-sm-3">
+											<input type="tel" class="form-control" id="phone2" placeholder="טלפון2" ng-model="currClient.phone2">
+										</div>
+										<div class="col-sm-3">
+											<input type="tel" class="form-control" id="phone3" placeholder="טלפון3" ng-model="currClient.phone3">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="PassportChecked" class="col-sm-3">פספורט נבדק</label>
+										<div class="col-sm-9">
+											<input type="checkbox" class="form-control" id="PassportChecked" ng-model="currClient.PassportChecked" ng-checked="currClient.PassportChecked == true">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="Notes" class="col-sm-3">הערות</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" id="Notes" ng-model="currClient.Notes"></textarea>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary">שמור</button>
+										<button type="reset" class="btn btn-default" data-dismiss="modal" ng-click="resetClient()">בטל</button>
+									</div>
+								</form>
+							</div>
+							<div id="add-transfer" class="tab-pane" ng-model="newTransfer">
+								<form id="newTransferForm" name="newTransferForm" class="form-horizontal modal-body" role="form" ng-submit="addTransferToClient(newTransfer)">
+									<div class="form-group">
+										<label for="transferNumber" class="col-sm-3">מספר העברה</label>
+										<div class="col-sm-9">
+											<input type="number" class="form-control" id="transferNumber" placeholder="מספר העברה" ng-model="newTransfer.TransferNumber" required>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="transferDate" class="col-sm-3">תאריך העברה</label>
+										<div class="col-sm-9">
+											<input type="date" class="form-control" id="transferDate" ng-model="newTransfer.TransferDate" required>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="amount" class="col-sm-3">כמות מועברת</label>
+										<div class="col-sm-9">
+											<input type="number" class="form-control" id="amount" ng-model="newTransfer.MoneyAmount" required>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="currency" class="col-sm-3">מטבע</label>
+										<div class="col-sm-9">
+											<select ng-model="newTransfer.TCurrency" class="form-control">
+												<option value="€">€</option>
+												<option value="$">$</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="comm" class="col-sm-3">עמלה</label>
+										<div class="col-sm-9">
+											<input type="number" class="form-control" id="comm" ng-model="newTransfer.Comm" required>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-primary" >שמור</button>
+										<button type="reset" class="btn btn-default" data-dismiss="modal" >בטל</button>
+									</div>
+								</form>
+							</div>
+							<div id="transfers" class="tab-pane" ng-controller="Ctrl">
+								<table class="table table-hover" id="transfersTable" client-trasnfers options="options">
+								</table>
+								<br>
+							</div>	
+							<div id="image" class="tab-pane">
+								<ul class="nav nav-pills nav-stacked">
+									<li class="active"><a href="#pic1" role="tab" data-toggle="tab">Home</a></li>
+									<li><a href="#pic2" role="tab" data-toggle="tab">Profile</a></li>
+									<li><a href="#" role="tab" data-toggle="tab">Messages</a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="pic1" class="tab-pane active">
+										<object data="myfile.pdf" type="application/pdf" width="100%" height="100%">
+		 
+										  <p>It appears you don't have a PDF plugin for this browser.
+										  No biggie... you can <a href="myfile.pdf">click here to
+										  download the PDF file.</a></p>
+										  
+										</object>
+									</div>
+									<div id="pic2" class="tab-pane">
+										...
+									</div>
+								</div>
+							</div>	
+						

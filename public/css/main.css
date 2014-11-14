@@ -1,0 +1,203 @@
+body, input, select{
+	font-family: Tahoma;
+}
+.shtuty{
+	background: rgb(226, 255, 226);
+}
+.hidden{
+	display: none;
+}
+#searchOptions{
+	text-align: center;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	border-bottom: 1px solid #ccc;
+	background: rgb(250,250,250);
+}
+#searchOptions select{
+	height: 1.8em;
+}
+
+#searchResults>table{
+}
+
+#transfers table{
+	position: relative;
+}
+
+#transfers table{
+	width: 90%;
+	right: 5%;
+}
+
+#resultTable{
+	border: 1px solid;
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+	right: 5%;
+	width: 90%;
+}
+
+#resultTable th, #transfers table th{
+	text-align: center !important;	
+}
+
+.modal-header {
+	padding: 10px !important;
+	background: rgb(250,250,250);
+}
+
+.modal-header .close {
+	float: left;
+	margin-top: 2px !important; 
+}
+
+.modal-footer{
+	padding: 15px 0 0 15px;
+}
+
+.nav-tabs{
+	-webkit-padding-start: 0px;
+}
+
+.nav-tabs > li {
+	float: right !important;
+}
+
+.dataTables_wrapper{
+	width: 90%;
+}
+
+.pagination {
+	margin: 10px 0 0 0 !important;
+}
+
+.pagination > li{
+	float: right;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+	margin-right-left: 0;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+	margin-left-left: 0;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+#transfers table th{
+	border: 0;
+}
+
+table.dataTable tr.odd, table.dataTable tr.even, table.dataTable tr.odd td.sorting_1, table.dataTable tr.even td.sorting_1{
+	background-color: initial !important;
+}
+table.dataTable tr.odd:hover > td.sorting_1, table.dataTable tr.even:hover > td.sorting_1{
+	background-color: #f5f5f5 !important;
+}
+.fg-toolbar{
+	padding-bottom: 1.5em;
+}
+
+.fg-toolbar label{
+	font-weight: initial !important;
+}
+
+input[type="search"] {
+	border: 1px solid #BBB;
+	margin-right: 2pt;
+}
+
+#newTransferForm span, #updateTransferForm span{
+	float: right;
+	padding-left: 1em;
+	padding-top: 0.4em;
+}
+
+.form-error, #newTransferForm input.ng-invalid.ng-dirty, #updateTransferForm input.ng-invalid.ng-dirty{
+	border-color: #a94442;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(169, 68, 66, .6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(169, 68, 66, .6);
+
+}
+
+#newTransferForm *[class^='col'], #client-form *[class^='col'], #updateTransferForm *[class^='col']{
+	float: right !important;
+}
+
+.col-sm-4-5{
+	width: 37.333333%;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+#newTransferForm .col-sm-3, #updateTransferForm .col-sm-3{
+	width: 20%;
+} 
+
+#client-form input[type='checkbox']{
+	width: 4%;
+	margin: 0;
+	padding: 0;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+::-webkit-input-placeholder, #client-form ::-webkit-input-placeholder, #newTransferForm ::-webkit-input-placeholder, 
+#updateTransferForm ::-webkit-input-placeholder{
+   color: #BBB;
+}
+
+.radio-inline {
+	padding-top: 0 !important;
+}
+
+.radio-inline input{
+	margin-left: 7px !important;
+	float: right;
+	position: relative !important;
+}
+
+.disable-button{
+	opacity: 0.5;
+}
+
+#image{
+	height: 400px;
+}
+
+#image .nav{
+	width: 100px;
+	float: right;
+	padding-right: 2%;
+	text-align: center;
+}
+
+#image .tab-content{
+	width: 75%;
+	float: right;
+	margin-right: 5%;
+}
+
+#image div[id^='pic']{
+	height: 100%;
+}
+
+.modal-alert{
+	float: left;
+	margin-left: -15px;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	width: 50%;
+	text-align: center;
+}

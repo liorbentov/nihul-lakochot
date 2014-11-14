@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html ng-app="selectExample">
+<head>
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
+</head>
+<body  ng-controller="ExampleController">
+	
+	<div >
+		<select ng-model="selectedTestAccount" ng-options="item.CountryName for item in testAccounts">
+			<option value="">Select Country</option>
+  		</select><br/>
+
+		<select ng-model="selectedTestAccount" ng-options="item.CardID for item in clients">
+			<option value="">Select Client</option>
+  		</select><br/>
+
+	</div>
+	<select id="countries">
+	</select>
+
+	<script>
+		angular.module('selectExample', [])
+		  .controller('ExampleController', function($scope, $http) {
+		  	//$scope.selectedTestAccount = null;
+    		$scope.testAccounts = [];
+    		$scope.clients = [];
+			$http({
+				  method: 'GET',
+				  url: '/countries'
+				}).success(function (result) {
+				  $scope.testAccounts = result;
+				}).error(function(data, status, headers, config) {
+				});
+
+			/*$http({
+				  method: 'GET',
+				  url: '/clients'
+				}).success(function (result) {
+				  $scope.clients = result;
+				}).error(function(data, status, headers, config) {
+				});	*/
+		  });
+	</script>
+
+</body>
+</html>
