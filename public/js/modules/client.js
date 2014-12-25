@@ -3,8 +3,15 @@ angular.module('myExample', [])
 
 	  	$scope.selectClient = function(client){
 			$scope.master = angular.copy(client);
+
+			var patt = /\d{2}[\/]\d{2}[\/]\d{4}/g;
+
+			if (patt.test(client.birthdate)){
+				dateArray = client.birthdate.split("/");
+				client.birthdate = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+			}
+
 			$scope.currClient = client;
-			//console.log(client);
 			$scope.setActiveTab(0);
 
 			// Handle client details form
@@ -21,8 +28,15 @@ angular.module('myExample', [])
 			$("div[class^='col-xs-6']:last")
 				.addClass("col-xs-12")
 				.removeClass("col-xs-6");
-			$("div[class^='col-xs-6']").remove();
+			//$("div[class^='col-xs-6']").remove();
+
+			// Handle Files
+			$scope.getClientFiles($scope.currClient);
 		};
+
+		$scope.cleanExtraFilter = function(){
+			$scope.extraFilter = null;
+		}
 
 		$scope.resetClient = function(){
 			angular.copy($scope.master, $scope.currClient);
@@ -89,6 +103,17 @@ angular.module('myExample', [])
 			});	
 		}
 
+		$scope.getClientFiles = function(client){
+			var theURL = '/clients/files/' + client.CardID;
+			$http({
+			  method: 'GET',
+			  url: theURL
+			}).success(function (result) {
+			  $scope.clientFiles = result;
+			}).error(function(data, status, headers, config) {
+			});	
+		}
+
 		$scope.addTransferToClient = function(transfer){
 			var theURL = "/transfers/add/" + $scope.currClient.CardID;
 			$http({
@@ -135,10 +160,39 @@ angular.module('myExample', [])
 			if (searchOption == "country"){
 				$scope.filterByCountry(value);
 			}
+			if (searchOption == "name"){
+				$scope.filterByName(value);
+			}
+			if (searchOption == "natID"){
+				$scope.filterByNationalID(value);
+			}
 		}
 
 		$scope.filterByPhone = function(phone){
 			var theURL = '/clients?phone=' + phone;
+			$http({
+			  method: 'GET',
+			  url: theURL
+			}).success(function (result) {
+			  $scope.clients = result;
+			}).error(function(data, status, headers, config) {
+			});	
+		}
+
+		$scope.filterByNationalID = function(id){
+			var theURL = '/clients?natID=' + id;
+			$http({
+			  method: 'GET',
+			  url: theURL
+			}).success(function (result) {
+			  $scope.clients = result;
+			}).error(function(data, status, headers, config) {
+			});	
+		}
+
+
+		$scope.filterByName = function(name){
+			var theURL = '/clients?name=' + name;
 			$http({
 			  method: 'GET',
 			  url: theURL
@@ -169,7 +223,6 @@ angular.module('myExample', [])
 			}).success(function (result) {
 			  $scope.clients = result;
 			}).error(function(data, status, headers, config) {
-				console.log("filterByCountry Error");
 			});	
 		}
 
@@ -228,6 +281,7 @@ angular.module('myExample', [])
 		$scope.orderByField = 'CardID';
 		$scope.descending = false;
 		$scope.transferToUpdate = null;
+		$scope.clientFiles = null;
 	})
 
 

@@ -59,6 +59,51 @@ exports.getClientByCountry = function(country, res) {
     }); 
 };
 
+exports.getClientByName = function(name, res) {
+  var query = "select * from t_clients t where LCase(t.firstname) = LCase('" + name + "') ";
+  query += "or LCase(t.firstname) like LCase('%" + name + "%')"
+  query += "or LCase(t.lastname) = LCase('%" + name + "%')"
+  query += "or LCase(t.lastname) like LCase('%" + name + "%')"
+  connection
+    .query(query)
+    .on('done', function (data){
+      clients = data.records;
+      for (var i = 0; i < clients.length; i++) {
+        for (curr in clients[i]) {
+          clients[i][curr] = (clients[i][curr] == 'null' ? '' : 
+            (curr == 'CardID' ?  clients[i][curr]*1 : decodeURIComponent(clients[i][curr])));
+        }
+      };
+      res.json(clients);
+    })
+    .on('fail', function (data){
+      return [];
+    }); 
+};
+
+
+exports.getClientNationalID = function(id, res) {
+  var query = "select * from t_clients t where t.id = '" + id + "' ";
+  query += "or t.id like '%" + id + "%'"
+  query += "or t.Id2 = '%" + id + "%'"
+  query += "or t.Id2 like '%" + id + "%'"
+  connection
+    .query(query)
+    .on('done', function (data){
+      clients = data.records;
+      for (var i = 0; i < clients.length; i++) {
+        for (curr in clients[i]) {
+          clients[i][curr] = (clients[i][curr] == 'null' ? '' : 
+            (curr == 'CardID' ?  clients[i][curr]*1 : decodeURIComponent(clients[i][curr])));
+        }
+      };
+      res.json(clients);
+    })
+    .on('fail', function (data){
+      return [];
+    }); 
+};
+
 exports.getClientByPhone = function(phone, res) {
   connection
     .query("select * from t_clients t where t.logicDelete = false and (t.phone like '%"+ phone +"%' or t.phone2 like '%"+ phone +"%' or t.phone3 like '%"+ phone +"%')")
@@ -91,11 +136,13 @@ exports.getClientByPhone = function(phone, res) {
 };   
 
 exports.updateClient = function(req){
-  var query = "update t_clients set id = '" + req.query.id + "', id2 = '" + req.query.id2 + "'";
+  console.log(req.query.Id2);
+  var query = "update t_clients set id = '" + req.query.id + "', Id2 = '" + req.query.Id2 + "'";
   query += ", firstname = '" + req.query.firstname + "', lastname = '" + req.query.lastname + "'";
   query += ", birthdate = '" + req.query.birthdate + "', country = '" + req.query.country + "', ";
   query += "phone = '" + req.query.phone + "', phone2 = '" + req.query.phone2 + "', phone3 = '" + req.query.phone3 + "'";
   query += ", Notes = '" + req.query.Notes + "', PassportChecked = " + req.query.PassportChecked;
+  query += ", clientStatus = '" + req.query.clientStatus + "'";
   query += ", gender = '" + req.query.gender + "' where CardID = " + req.query.CardID;
   connection
     .execute(query)
@@ -118,3 +165,21 @@ exports.deleteClient = function(id, res){
       res.json({"error" : "התרחשה תקלה"});
     })
 }
+
+exports.getClientFiles = function(cardID, res) {
+  var query = "select path from t_file t where clientID = '" + cardID + "'";
+  connection
+    .query(query)
+    .on('done', function (data){
+      clients = data.records;
+      for (var i = 0; i < clients.length; i++) {
+        for (curr in clients[i]) {
+            clients[i][curr] = decodeURIComponent(clients[i][curr]);
+        }
+      };
+      res.json(clients);
+    })
+    .on('fail', function (data){
+      return [];
+    }); 
+};

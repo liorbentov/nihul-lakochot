@@ -24,7 +24,13 @@ app.get('/clients', function (req, res) {
   	clients.getClientById(req.query.id, res);
   }
   else if (req.query.country){
-  	clients.getClientByCountry(req.query.country, res);
+    clients.getClientByCountry(req.query.country, res);
+  }
+  else if (req.query.name){
+    clients.getClientByName(req.query.name, res);
+  }
+  else if(req.query.natID){
+    clients.getClientNationalID(req.query.natID, res);
   }
   else{
   	clients.getAllClients(res);
@@ -61,9 +67,21 @@ app.put('/transfers/delete/:id', function (req, res){
   res.send(transfers.deleteTransfer(req.query));
 });
 
-app.get('/clients/:id', function (req, res, next) {
+app.get('/clients/:id', function (req, res) {
   var client = clients.getClientById(req.params.id);
   res.send(client);
+});
+
+app.get('/clients/files/:id', function (req, res) {
+  var clientFiles = clients.getClientFiles(req.params.id, res);
+});
+
+app.get('/files/', function (req, res) {
+  res.sendFile(req.query.path);
+});
+
+app.get('/files/:path', function (req, res) {
+  res.sendFile(req.params.path);
 });
 
 // Only requests to /api/ will be send to router.

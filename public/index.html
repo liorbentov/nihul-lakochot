@@ -11,13 +11,16 @@
 
 				<!-- Extra filter -->
 				<div class="col-xs-6 col-md-4"  ng-show="clients.length>15">
-					<input type="text" placeholder="הכנס ערך לסינון נוסף" ng-model="extraFilter" class="pull-right col-xs-6">
+					<input type="text" placeholder="הכנס ערך לסינון נוסף" ng-model="extraFilter" id="extraFilter">
+					<input type="button" value="נקה סינון" ng-click="cleanExtraFilter()">
 				</div>
 				<div class="col-xs-6 col-md-4" ng:class="{true:'',false:'col-md-offset-4'}[clients.length>15]">
 					<form name="searchOptionsForm" role="form" ng-submit="filter(myFilter, searchOption)" >
 						<select ng-model="searchOption" >
 							<option value="phone">טלפון</option>
 							<option value="id">כרטיס</option>
+							<option value="name">שם</option>
+							<option value="natID">ת.ז</option>
 							<option value="country">ארץ</option>
 						</select>
 						<input type="text" name="search" placeholder="הכנס ערך לחיפוש" ng-model="myFilter" required ng-minlength="3">
@@ -41,7 +44,7 @@
 			    <tr ng-repeat="client in clients|filter:extraFilter|orderBy:orderByField:direction" data-toggle="modal" data-target="#myModal" ng-click="selectClient(client)"  ng:class="{true:'shtuty', false:''}[client.Notes != '']">
 			        <td data-title="'Card'">{{client.CardID}}</td>
 			        <td data-title="'Name'">{{client.firstname}} {{client.lastname}}</td>
-			        <td data-title="'ID'">{{client.id}}</td>
+			        <td data-title="'ID'">{{client.id + (client.Id2 == "" || client.Id2 == 'null' ? "" : ", " + client.Id2)}}</td>
 			        <td data-title="'Country'">{{(client.country == "" || client.country == 'null' ? "" : client.country)}}</td>
 			        <td data-title="'Phones'">{{client.phone  + (client.phone2 == "" || client.phone2 == 'null' ? "" : ", " + client.phone2) + (client.phone3 == "" || client.phone3 == 'null' ? "" : ", " + client.phone3)}}</td>
 			        <td data-title="'Passport'"><input type="checkbox" ng-checked="client.PassportChecked == true" ng-model="client.PassportChecked" ng-click="$event.stopPropagation()"></td>
@@ -72,10 +75,10 @@
 									<div class="form-group">
 										<label for="id" class="col-sm-3">תעודה מזהה</label>
 										<div class="col-sm-4-5">
-											<input type="text" class="form-control" id="id" placeholder="תעודה מזהה" ng-model="currClient.id" required>
+											<input type="text" class="form-control" id="id" placeholder="תעודה מזהה" ng-model="currClient.id" required disabled=disabled>
 										</div>
 										<div class="col-sm-4-5">
-											<input type="text" class="form-control" id="id2" placeholder="תעודה מזהה" ng-model="currClient.id2">
+											<input type="text" class="form-control" id="id2" placeholder="תעודה מזהה" ng-model="currClient.Id2">
 										</div>
 									</div>
 									<div class="form-group">
@@ -105,6 +108,12 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label for="birthdate" class="col-sm-3">תאריך לידה</label>
+										<div class="col-sm-4-5">
+											<input type="date" class="form-control" id="birthdate" ng-model="currClient.birthdate">
+										</div>
+									</div>
+									<div class="form-group">
 										<label for="phone" class="col-sm-3">טלפונים</label>
 										<div class="col-sm-3">
 											<input type="tel" class="form-control" id="phone" placeholder="טלפון" ng-model="currClient.phone" required>
@@ -117,9 +126,15 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="PassportChecked" class="col-sm-3">פספורט נבדק</label>
-										<div class="col-sm-9">
-											<input type="checkbox" class="form-control" id="PassportChecked" ng-model="currClient.PassportChecked" ng-checked="currClient.PassportChecked == true">
+										<label for="PassportChecked" class="col-sm-3">פרטים נוספים</label>
+										<div class="col-sm-4-5">
+										<label class="radio-inline col-sm-9 pull-right">
+											<input type="checkbox" class="form-control" id="PassportChecked" ng-model="currClient.PassportChecked" ng-checked="currClient.PassportChecked == true">פספורט נבדק
+										</label>
+										</div>
+
+										<div class="col-sm-4-5">
+											<input type="text" class="form-control" id="status" placeholder="סטאטוס" ng-model="currClient.clientStatus">
 										</div>
 									</div>
 									<div class="form-group">
@@ -235,22 +250,14 @@
 							</div>	
 							<div id="image" class="tab-pane">
 								<ul class="nav nav-pills nav-stacked">
-									<li class="active"><a href="#pic1" role="tab" data-toggle="tab">Home</a></li>
-									<li><a href="#pic2" role="tab" data-toggle="tab">Profile</a></li>
-									<li><a href="#" role="tab" data-toggle="tab">Messages</a></li>
+									<li ng-repeat="file in clientFiles"  ng:class="{true:'active', false:''}[$first]">
+										<a href="#pic{{$index + 1}}" role="tab" data-toggle="tab">Pic {{$index + 1}}</a>
+									</li>
 								</ul>
 								<div class="tab-content">
-									<div id="pic1" class="tab-pane active">
-										<object data="myfile.pdf" type="application/pdf" width="100%" height="100%">
-		 
-										  <p>It appears you don't have a PDF plugin for this browser.
-										  No biggie... you can <a href="myfile.pdf">click here to
-										  download the PDF file.</a></p>
-										  
+									<div id="pic{{$index + 1}}" class="tab-pane" ng-repeat="file in clientFiles" ng:class="{true:'active', false:''}[$first]">
+										<object data="/files/?path={{file.path}}" type="application/pdf" width="100%" height="100%">								  
 										</object>
-									</div>
-									<div id="pic2" class="tab-pane">
-										...
 									</div>
 								</div>
 							</div>	
